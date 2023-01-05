@@ -28,11 +28,20 @@ console.log(...); // will not be logged
 // Turn off in browser
 localStorage.setItem('debug', '');
 
+// The preset way, based on multiple module you will access in a single execution.
+// Register in localStorage as below.
+const myDebugPreset = [
+  'src/first-function/*',
+  'src/second-function/*',
+  'src/third-function/*',
+];
+
 // Multiple rules in browser
 // For specific rules check https://github.com/debug-js/debug
 localStorage.setItem('debug', [
   '-src/disable-me/*',
   'src/enable-me/*',
+  ...myDebugPreset,
   'src/*'
 ].join(','));
 ```
