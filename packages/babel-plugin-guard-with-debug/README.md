@@ -74,7 +74,15 @@ module.exports = {
         {
           // transform your '/path/to/repo/module/file.js' to 'module/file.js'
           // so that we can do `if (debug.enabled('module/file.js')) console.log(...)`
-          "getDebugModuleName": ({absFileName}) => absFileName.split(root)[1]
+          "getDebugModuleName": ({absFileName}) => absFileName.split(root)[1],
+
+          // remove all console.log(...) in production
+          // will override "getDebugModuleName"
+          "shouldRemove": ({absFileName}) => process.env.NODE_ENV === 'production',
+          
+          // do not "guard with debug" or "remove" these functions
+          // by default all the console.xxx functions will be processed
+          "exclude": ["error", "warn"]
         }
       ]
     ]
@@ -82,6 +90,5 @@ module.exports = {
 ```
 
 ## Roadmap
-- console.warn/info/error... support
 - examples
 - swc support

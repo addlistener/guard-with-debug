@@ -14,6 +14,10 @@ module.exports = function ({types: t}) {
             throw new Error('opts.getDebugModuleName must be a function: ({absFileName: string}) => string');
           }
 
+          if (!opts.shouldRemove) {
+            throw new Error('opts.shouldRemove must be a function: ({absFileName: string}) => boolean');
+          }
+
           let parsed = babel.parse("const debug = require('debug');\n", { filename: '' });
 
           if (parsed.program.body.length > 1) {
@@ -27,6 +31,8 @@ module.exports = function ({types: t}) {
       CallExpression(path, state) {
         const callee = path.get("callee");
         const opts = state.opts || {};
+        const debugModuleName = opts.getDebugModuleName({absFileName: state.file.opts.filename});
+        const shouldRemove = opts.shouldRemove({absFileName: state.file.opts.filename});
 
         if (!callee.isMemberExpression()) return;
 
@@ -36,7 +42,7 @@ module.exports = function ({types: t}) {
             const consequent = t.blockStatement([t.cloneDeep(path.container)]);
 
             let args = [
-              t.stringLiteral(opts.getDebugModuleName({absFileName: state.file.opts.filename})),
+              t.stringLiteral(debugModuleName),
               // t.identifier('__filename')
             ];
             const condition = t.callExpression(
@@ -45,15 +51,23 @@ module.exports = function ({types: t}) {
             const guarded = t.ifStatement(condition, consequent);
             path.replaceWith(guarded);
           } else {
-            // path.replaceWith(createVoid0());
+            if (shouldRemove) {
+              path.replaceWith(createVoid0());
+            }
           }
         } else if (isIncludedConsoleBind(callee, state.opts.exclude)) {
           // console.log.bind()
-          // path.replaceWith(createNoop());
+          if (shouldRemove) {
+            path.replaceWith(createNoop());
+          }
         }
       },
       MemberExpression: {
         exit(path, state) {
+          const opts = state.opts || {};
+          const debugModuleName = opts.getDebugModuleName({absFileName: state.file.opts.filename});
+          const shouldRemove = opts.shouldRemove({absFileName: state.file.opts.filename});
+
           if (
             isIncludedConsole(path, state.opts.exclude) &&
             !path.parentPath.isMemberExpression()
@@ -64,7 +78,9 @@ module.exports = function ({types: t}) {
             ) {
               path.parentPath.get("right").replaceWith(createNoop());
             } else {
-              // path.replaceWith(createNoop());
+              if (shouldRemove) {
+                path.replaceWith(createNoop());
+              }
             }
           }
         }
