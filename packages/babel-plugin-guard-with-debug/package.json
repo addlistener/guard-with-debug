@@ -2,7 +2,11 @@
   "name": "babel-plugin-guard-with-debug",
   "version": "0.0.1",
   "license": "MIT",
+  "main": "index.js",
   "scripts": {},
+  "peerDependencies": {
+    "debug": "^4.0.0"
+  },
   "dependencies": {},
   "devDependencies": {
   }
