@@ -17,10 +17,12 @@ For those who
 ## Setup
 ```bash
 # npm
-npm install babel-plugin-guard-with-debug debug
+npm install --save debug
+npm install --save-dev babel-plugin-guard-with-debug 
 
 # yarn
-yarn add babel-plugin-guard-with-debug debug
+yarn add debug
+yarn add -D babel-plugin-guard-with-debug
 ```
 
 ```javascript
@@ -37,6 +39,8 @@ module.exports = {
     [
       "guard-with-debug",
       {
+        // transform your '/path/to/repo/module/file.js' to 'module/file.js'
+        // so that we can do `if (debug.enabled('module/file.js')) console.log(...)`
         "getDebugModuleName": ({absFileName}) => absFileName.split(root)[1]
       }
     ]
