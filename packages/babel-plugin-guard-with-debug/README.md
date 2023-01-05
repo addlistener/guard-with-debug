@@ -5,9 +5,10 @@ During babel transform we will turn `console.log(...)` into
 if (debug.enabled("path/to/file.js") console.log(...)
 ```
 
-For those who
-- Want to turn on / off `console.log` using [debug.js](https://github.com/debug-js/debug) based on file name. No need to `require('debug')('make:up:a:module:name')` any more.
-- Need browser native click go to source support for [debug.js](https://github.com/debug-js/debug), which is not possible when you substitute `console.log = debug("a:b:c")`
+For those who want
+- To turn on / off `console.log` using [debug.js](https://github.com/debug-js/debug) based on file name. No need to `require('debug')('make:up:a:module:name')` any more.
+- Browser native click go to source support for [debug.js](https://github.com/debug-js/debug), which is not possible when you substitute `console.log = debug("a:b:c")`
+- To remove console.xxx in production.
 
 ## Usage
 
