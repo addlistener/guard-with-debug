@@ -62,6 +62,14 @@ console.log(...); // will not be logged
 
 // Turn off in browser
 localStorage.setItem('debug', '');
+
+// Multiple rules in browser
+// For specific rules check https://github.com/debug-js/debug
+localStorage.setItem('debug', [
+  '-src/disable-me/*',
+  'src/enable-me/*',
+  'src/*'
+].join(','));
 ```
 
 ```bash
