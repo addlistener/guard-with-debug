@@ -9,10 +9,43 @@ For those who
 - Want to turn on / off `console.log` using [debug.js](https://github.com/debug-js/debug) based on file name. No need to `require('debug')('make:up:a:module:name')` any more.
 - Need browser native click go to source support for [debug.js](https://github.com/debug-js/debug), which is not possible when you substitute `console.log = debug("a:b:c")`
 
-## Roadmap
-- console.warn/info/error... support
-- examples
-- swc support
+## Usage
+
+```javascript
+// Turn on in browser
+localStorage.setItem('debug', 'src/folderA/*');
+
+// src/folderA/*.js
+console.log(...); // will be logged
+
+// src/folderB/*.js
+console.log(...); // will not be logged
+
+// Turn off in browser
+localStorage.setItem('debug', '');
+
+// Multiple rules in browser
+// For specific rules check https://github.com/debug-js/debug
+localStorage.setItem('debug', [
+  '-src/disable-me/*',
+  'src/enable-me/*',
+  'src/*'
+].join(','));
+```
+
+```bash
+# Turn on in Node.js
+DEBUG="src/folderA/*" node server.js
+
+// src/folderA/*.js
+console.log(...); // will be logged
+
+// src/folderB/*.js
+console.log(...); // will not be logged
+
+# Turn off in Node.js
+DEBUG="" node server.js
+```
 
 ## Setup
 ```bash
@@ -33,55 +66,22 @@ const path = require('path');
 const root = path.resolve('./') + '/';
 
 module.exports = {
-  ...
-  "plugins": [
-    ...,
-    [
-      "guard-with-debug",
-      {
-        // transform your '/path/to/repo/module/file.js' to 'module/file.js'
-        // so that we can do `if (debug.enabled('module/file.js')) console.log(...)`
-        "getDebugModuleName": ({absFileName}) => absFileName.split(root)[1]
-      }
+    ...
+    "plugins": [
+      ...,
+      [
+        "guard-with-debug",
+        {
+          // transform your '/path/to/repo/module/file.js' to 'module/file.js'
+          // so that we can do `if (debug.enabled('module/file.js')) console.log(...)`
+          "getDebugModuleName": ({absFileName}) => absFileName.split(root)[1]
+        }
+      ]
     ]
-  ]
 };
 ```
 
-## Usage
-
-```javascript
-// Turn on in browser
-localStorage.setItem('debug', 'src/folderA/*');
-
-// src/folderA/*.js
-console.log(...); // will be logged
-
-// src/folderB/*.js
-console.log(...); // will not be logged
-
-// Turn off in browser
-localStorage.setItem('debug', '');
-
-// Multiple rules in browser
-// For specific rules check https://github.com/debug-js/debug
-localStorage.setItem('debug', [
-  '-src/disable-me/*', 
-  'src/enable-me/*',
-  'src/*'
-].join(','));
-```
-
-```bash
-# Turn on in Node.js
-DEBUG="src/folderA/*" node server.js
-
-// src/folderA/*.js
-console.log(...); // will be logged
-
-// src/folderB/*.js
-console.log(...); // will not be logged
-
-# Turn off in Node.js
-DEBUG="" node server.js
-```
+## Roadmap
+- console.warn/info/error... support
+- examples
+- swc support
