@@ -17,10 +17,10 @@ For those who
 ## Setup
 ```bash
 # npm
-npm install @super-console/babel-plugin-guard-with-debug debug
+npm install babel-plugin-guard-with-debug debug
 
 # yarn
-yarn add @super-console/babel-plugin-guard-with-debug debug
+yarn add babel-plugin-guard-with-debug debug
 ```
 
 ```javascript

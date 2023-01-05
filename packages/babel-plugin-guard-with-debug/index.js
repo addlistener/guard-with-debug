@@ -10,8 +10,8 @@ module.exports = function ({types: t}) {
         enter: (path, state) => {
           const opts = state.opts || {};
 
-          if (!opts.getModuleName) {
-            throw new Error('opts.getModuleName must be a function: ({absFileName: string}) => string');
+          if (!opts.getDebugModuleName) {
+            throw new Error('opts.getDebugModuleName must be a function: ({absFileName: string}) => string');
           }
 
           let parsed = babel.parse("const debug = require('debug');\n", { filename: '' });
@@ -28,15 +28,6 @@ module.exports = function ({types: t}) {
         const callee = path.get("callee");
         const opts = state.opts || {};
 
-        let getModuleName = opts.getModuleName;
-        if (!getModuleName && opts.rootPath) {
-          getModuleName = (absFilename) => {
-            const a = absFilename.split(opts.rootPath)[1];
-            console.log(111, absFilename, opts.rootPath, a);
-            return a;
-          }
-        }
-
         if (!callee.isMemberExpression()) return;
 
         if (isIncludedConsole(callee, state.opts.exclude)) {
@@ -45,7 +36,7 @@ module.exports = function ({types: t}) {
             const consequent = t.blockStatement([t.cloneDeep(path.container)]);
 
             let args = [
-              t.stringLiteral(getModuleName({absFileName: state.file.opts.filename})),
+              t.stringLiteral(opts.getDebugModuleName({absFileName: state.file.opts.filename})),
               // t.identifier('__filename')
             ];
             const condition = t.callExpression(
