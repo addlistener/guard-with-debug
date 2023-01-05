@@ -10,6 +10,9 @@ For those who want
 - Browser native click go to source support for [debug.js](https://github.com/debug-js/debug), which is not possible when you substitute `console.log = debug("a:b:c")`
 - To remove console.xxx in production.
 
+This plugin actually encourages me to write more modular code that I can turn on / off together with the same rule. Please submit an issue if you have one.
+
+
 ## Usage
 
 ```javascript
