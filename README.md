@@ -19,7 +19,7 @@ And I have found that this plugin actually encourages me to write more modular c
 
 ```javascript
 // Turn on in browser
-localStorage.setItem('debug', 'src/folderA/*');
+localStorage.debug='src/folderA/*';
 
 // src/folderA/*.js
 console.log(...); // will be logged
@@ -37,12 +37,12 @@ const myDebugPreset = [
 
 // Multiple rules in browser
 // For specific rules check https://github.com/debug-js/debug
-localStorage.setItem('debug', [
+localStorage.debug = [
   '-src/disable-me/*',
   'src/enable-me/*',
   ...myDebugPreset,
   'src/*'
-].join(','));
+].join(',');
 ```
 
 If you transform your node.js files with babel you can also do the following 
