@@ -10,7 +10,9 @@ For those who want
 - Browser native click go to source support for [debug.js](https://github.com/debug-js/debug), which is not possible when you substitute `console.log = debug("a:b:c")`
 - To remove console.xxx in production.
 
-This plugin actually encourages me to write more modular code that I can turn on / off together with the same rule. Please submit an issue if you have one.
+Solves this problem specifically [How to disable console.log messages based on criteria from specific javascript source (method, file) or message contents](https://stackoverflow.com/questions/39634926/how-to-disable-console-log-messages-based-on-criteria-from-specific-javascript-s/75031674#75031674) Please kindly let me know if it's useful.
+
+And I have found that this plugin actually encourages me to write more modular code that I can turn on / off together with the same rule. 
 
 
 ## Usage
