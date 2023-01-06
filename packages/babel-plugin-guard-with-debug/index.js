@@ -37,19 +37,22 @@ module.exports = function ({types: t}) {
         if (!callee.isMemberExpression()) return;
 
         if (isIncludedConsole(callee, state.opts.exclude)) {
-          // console.log()
           if (path.parentPath.isExpressionStatement()) {
-            const consequent = t.blockStatement([t.cloneDeep(path.container)]);
+            if (shouldRemove) {
+              path.remove();
+            } else {
+              const consequent = t.blockStatement([t.cloneDeep(path.container)]);
 
-            let args = [
-              t.stringLiteral(debugModuleName),
-              // t.identifier('__filename')
-            ];
-            const condition = t.callExpression(
-              t.identifier('debug.enabled'),
-              args);
-            const guarded = t.ifStatement(condition, consequent);
-            path.replaceWith(guarded);
+              let args = [
+                t.stringLiteral(debugModuleName),
+                // t.identifier('__filename')
+              ];
+              const condition = t.callExpression(
+                t.identifier('debug.enabled'),
+                args);
+              const guarded = t.ifStatement(condition, consequent);
+              path.replaceWith(guarded);
+            }
           } else {
             if (shouldRemove) {
               path.replaceWith(createVoid0());
