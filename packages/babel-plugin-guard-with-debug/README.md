@@ -43,6 +43,8 @@ localStorage.setItem('debug', [
 ].join(','));
 ```
 
+If you transform your node.js files with babel you can also do the following 
+
 ```bash
 # Turn on in Node.js
 DEBUG="src/folderA/*" node server.js
@@ -56,6 +58,8 @@ console.log(...); // will not be logged
 # Turn off in Node.js
 DEBUG="" node server.js
 ```
+
+If you don't transform your node.js files with babel, please submit an issue and let me know. I have a non-transform version, but I am not sure how many people need it.
 
 ## Setup
 ```bash
@@ -100,5 +104,6 @@ module.exports = {
 ```
 
 ## Roadmap
+- unit tests
 - examples
 - swc support

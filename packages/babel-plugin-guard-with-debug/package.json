@@ -1,11 +1,11 @@
 {
   "name": "babel-plugin-guard-with-debug",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "license": "MIT",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jchnxu/guard-with-debug"
+    "url": "https://github.com/jchnxu/guard-with-debug/tree/main/packages/babel-plugin-guard-with-debug"
   },
   "scripts": {},
   "peerDependencies": {
